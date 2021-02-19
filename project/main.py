@@ -6,7 +6,7 @@ from gtm_controller import GTMController
 from workspace import GTMWorkspace
 from tag import GTMTag
 from trigger import GTMTrigger
-#from variable import GTMVariable
+from variable import GTMVariable
 
 CLIENT_SECRETS = config('CLIENT_SECRETS')
 ACCOUNT_ID = config('ACCOUNT_ID')
@@ -93,17 +93,20 @@ trigger = GTMTrigger(workspaces)
 
 
 ### GTM TAG + TRIGGER CONNECT ###
-fls_tag = tag._get_tag_by_name(workspace_path, 'FLOODLIGHT_SALES_TAG2')
-pv_trigger = trigger._get_trigger_by_name(workspace_path, 'PV_TRIGGER')
-tag._connect_with_trigger(fls_tag, pv_trigger)
+#fls_tag = tag._get_tag_by_name(workspace_path, 'FLOODLIGHT_SALES_TAG2')
+#pv_trigger = trigger._get_trigger_by_name(workspace_path, 'PV_TRIGGER')
+#tag._connect_with_trigger(fls_tag, pv_trigger)
 
 
 ### GTM VARIABLE SETUP ###
+datalayer_variable_info = {'variable_name':'TTTT', 'variable_type':'v', 'dlv_name':'llll'}
 
-# variable = workspace.create_variable(...)
+variable = GTMVariable(workspaces)
+#ga_settings = variable._get_variable_by_name(workspace_path, 'Google Analytics settings')
+#variable._info(ga_settings)
+variable._create_variable(workspace_path, datalayer_variable_info)
 
 ## TODO: create version
-
 # version = workspace.create_version("Global Update Workspace")
 
 ## TODO: publish
