@@ -7,6 +7,7 @@ from workspace import GTMWorkspace
 from tag import GTMTag
 from trigger import GTMTrigger
 from variable import GTMVariable
+from version import GTMVersion
 
 CLIENT_SECRETS = config('CLIENT_SECRETS')
 ACCOUNT_ID = config('ACCOUNT_ID')
@@ -26,8 +27,8 @@ gtm_controller = GTMController(service)
 # gtm_controller.print_account_list(account_list)
 # container_list = gtm_controller.get_container_list(ACCOUNT_ID)
 # gtm_controller.print_container_list(container_list)
-# workspace_list = gtm_controller.get_workspace_list(ACCOUNT_ID, CONTAINER_ID)
-# gtm_controller.print_workspace_list(workspace_list)
+#workspace_list = gtm_controller.get_workspace_list(ACCOUNT_ID, CONTAINER_ID)
+#gtm_controller.print_workspace_list(workspace_list)
 # tag_list = gtm_controller.get_tag_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
 # gtm_controller.print_tag_list(tag_list)
 # trigger_list = gtm_controller.get_trigger_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
@@ -55,9 +56,11 @@ workspace_path = workspace._path()
 #workspace_count = gtm_controller.count_workspace(workspace_list)
 #new_workspace = workspace._create(container_path, 'NEW_GTM_WS', workspace_count)
 
+### TODO 1: create version
+workspace._create_version(workspace_path)
 
 ### GTM TAG SETUP ###
-### TODO : INPUT UI (Django) + Postgres DB  
+### TODO 5: INPUT UI (Django) + Postgres DB  
 
 script = '<script>....</script>'
 html_tag_info = {'tag_name':'HTML_TAG', 'tag_type':'html', 'script':script}
@@ -101,13 +104,13 @@ trigger = GTMTrigger(workspaces)
 ### GTM VARIABLE SETUP ###
 datalayer_variable_info = {'variable_name':'TTTT', 'variable_type':'v', 'dlv_name':'llll'}
 
-variable = GTMVariable(workspaces)
+#variable = GTMVariable(workspaces)
 #ga_settings = variable._get_variable_by_name(workspace_path, 'Google Analytics settings')
 #variable._info(ga_settings)
-variable._create_variable(workspace_path, datalayer_variable_info)
+#variable._create_variable(workspace_path, datalayer_variable_info)
 
-## TODO: create version
-# version = workspace.create_version("Global Update Workspace")
 
-## TODO: publish
-# version.publish()
+## TODO 2: publish the version
+version = GTMVersion(workspace)
+current_version = version._version(workspace_path)
+

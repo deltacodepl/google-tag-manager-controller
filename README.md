@@ -49,12 +49,12 @@ touch .env
 ```
 
 ### 6. setup the .env
-CLIENT_SECRETS='conf/client_secrets.json'
-ACCOUNT_ID='xxxx'
-CONTAINER_NAME='xxxx'
-CONTAINER_ID='xxxx'
-WORKSPACE_NAME='xxxx'
-WORKSPACE_ID='xx'
+- CLIENT_SECRETS='conf/client_secrets.json'
+- ACCOUNT_ID='xxxx'
+- CONTAINER_NAME='xxxx'
+- CONTAINER_ID='xxxx'
+- WORKSPACE_NAME='xxxx'
+- WORKSPACE_ID='xx'
 
 ### 7. setup GTM account info
 

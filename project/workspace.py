@@ -23,8 +23,6 @@ class GTMWorkspace():
         else:
             print('workspace is still exist')
 
-
-
     def _info(self):
         pprint(self.workspace)
 
@@ -42,3 +40,11 @@ class GTMWorkspace():
 
     def _account_id(self):
         return self.workspace['accountId']
+
+    def _create_version(self, workspace_path):
+        request = self.workspaces.create_version(
+                path=workspace_path, body={"name": 'name', "notes": 'notes'})
+        response = request.execute()
+        version = response.workspaces.get("containerVersion")
+        
+        print(version)
