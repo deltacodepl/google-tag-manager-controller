@@ -1,4 +1,4 @@
-<h1 align="center">Google Tag Manager PYTHON API</h1> <br>
+<h1 align="center">Google Tag Manager Python API</h1> <br>
 <h2>🐍 Table of Contents 🐍</h2>
 
 - [About](#about)
@@ -73,7 +73,8 @@ python project/main.py
 ```
 
 
-## Function of GTM Manager
+## Functions
+
 ### GTM Controller (gtm_controller.py)
 - get all accounts
 - print all accounts 
