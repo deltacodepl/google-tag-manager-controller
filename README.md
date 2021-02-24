@@ -17,6 +17,12 @@ The Google Tag Manager API handles millions of operations. To protect the system
 https://developers.google.com/tag-manager/api/v2/reference
 https://developers.google.com/tag-manager/api/v2/devguide
 
+## Quota Limits
+- 50,000 requests per project per day, which can be increased.
+- 10 queries per second (QPS) per IP address
+- By default, it is set to 100 requests per 100 seconds per user 
+- This can be adjusted to a maximum value of 1,000. 
+
 ## Setup
 ### 0. activate venv
 ```bash

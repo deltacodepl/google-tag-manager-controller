@@ -66,9 +66,16 @@ class GTMController:
         tags = self.workspaces.tags().list(parent=path).execute()
         return tags
 
+    def get_tags_with_path(self, path):
+        tags = self.workspaces.tags().list(parent=path).execute()
+        return tags 
+
     def print_tag_list(self, tags):
         for tag in tags["tag"]:
-            print("### tag ###")
+            print("##### 🤖  TAG 🤖 #####")
+            print("👻 TAG: ", tag['name'])
+            print("👾 TAG ID: ", tag['tagId'])
+            print("⚡️ DETAILS: ")
             pprint(tag)
 
     def get_trigger_list(self, account_id, container_id, workspace_id):
@@ -76,12 +83,18 @@ class GTMController:
             f"accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}"
         )
         triggers = self.workspaces.triggers().list(parent=path).execute()
+        return triggers
 
+    def get_triggers_with_path(self, path):
+        triggers = self.workspaces.triggers().list(parent=path).execute()
         return triggers
 
     def print_trigger_list(self, triggers):
         for trigger in triggers["trigger"]:
-            print("### trigger ###")
+            print("##### 🤖  TRIGGER 🤖 #####")
+            print("👻 TRIGGER: ", trigger['name'])
+            print("👾 TRIGGER ID: ", trigger['triggerId'])
+            print("⚡️ DETAILS: ")
             pprint(trigger)
 
     def get_custom_variable_list(self, account_id, container_id, workspace_id):
@@ -94,8 +107,16 @@ class GTMController:
 
     def print_custom_variable_list(self, custom_variables):
         for variable in custom_variables["variable"]:
-            print("### custom variable ###")
+
+            print("##### 🤖 CUSTOM VARIABLE 🤖 #####")
+            print("👻 VARIABLE: ", variable['name'])
+            print("👾 VARIABLE ID: ", variable['variableId'])
+            print("⚡️ DETAILS: ")
             pprint(variable)
+
+    def get_custom_variables_with_path(self, path):
+        custom_variables = self.workspaces.variables().list(parent=path).execute()
+        return custom_variables
 
     def get_built_in_variable_list(self, account_id, container_id, workspace_id):
         path = (

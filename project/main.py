@@ -37,7 +37,6 @@ workspace_path = workspace1._path()
 # workspace_count = gtm_controller.count_workspace(workspace_list)
 # new_workspace = gtm_controller.create_workspace(container_path, 'NEW_GTM_WS', workspace_count)
 
-
 ### GTM TAG ###
 # tag_list = gtm_controller.get_tag_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
 # gtm_controller.print_tag_list(tag_list)

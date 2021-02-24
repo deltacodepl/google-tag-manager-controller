@@ -89,11 +89,11 @@ class Workspace(Container):
     def variable_info(self, variable):
         self.variable.variable_info(variable)
 
-    # def create_workspace(self, container_path, workspaces, workspace_name, workspace_count):
+    def create_workspace(self, container_path, workspaces, workspace_name, workspace_count):
 
-    #     if not (workspace_name == self.workspace["name"]) and workspace_count < 3:
-    #         return workspaces.create(
-    #             parent=container_path, body={"name": workspace_name}
-    #         ).execute()
-    #     else:
-    #         return "workspace is still exist"
+        if not (workspace_name == self.workspace["name"]) and workspace_count < 3:
+            return workspaces.create(
+                parent=container_path, body={"name": workspace_name}
+            ).execute()
+        else:
+            return "workspace is still exist"
