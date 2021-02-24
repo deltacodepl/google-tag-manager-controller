@@ -12,10 +12,14 @@ class Variable:
     def create_variable(self, workspace_path, variable_info):
 
         variable = {
-            "name": variable_info["variable_name"],
-            "type": variable_info["variable_type"],
+            "name": variable_info["name"],
+            "type": variable_info["type"],
             "parameter": [
-                {"key": "name", "type": "template", "value": variable_info["dlv_name"]}
+                {
+                    "key": variable_info["param_key"],
+                    "type": "template",
+                    "value": variable_info["value"],
+                }
             ],
         }
         try:

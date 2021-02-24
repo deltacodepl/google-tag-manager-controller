@@ -43,7 +43,6 @@ class Workspace(Container):
         return self.workspace["accountId"]
 
     def create_tag(self, workspace_path, tag_info):
-        print(tag_info["tag_name"])
 
         if tag_info["tag_type"] == "html":
             self.tag.create_html_tag(workspace_path, tag_info)

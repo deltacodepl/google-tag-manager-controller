@@ -122,19 +122,47 @@ click_trigger_info = {"trigger_name": "CLICK_TRIGGER", "trigger_type": "click"}
 ### GTM VARIABLE ###
 # custom_variable_list = gtm_controller.get_custom_variable_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
 # gtm_controller.print_custom_variable_list(custom_variable_list)
+script = 'function(){\n  return console.log("heyo")\n}'
 
-# datalayer_variable_info = {'variable_name':'DLV_SAMPLE', 'variable_type':'v', 'dlv_name':'llll'}
+datalayer_variable_info = {
+    "name": "DLV_SAMPLE",
+    "type": "v",
+    "value": "datalayer-name",
+    "param_key": "name",
+}
+cookie_variable_info = {
+    "name": "COOKIE_SAMPLE",
+    "type": "k",
+    "value": "demo-cookie",
+    "param_key": "name",
+}
+cjs_variable_info = {
+    "name": "CUSTOM_JS",
+    "type": "jsm",
+    "value": script,
+    "param_key": "javascript",
+}
+ga_settings_variable_info = {
+    "name": "GA_SETTINGS",
+    "type": "gas",
+    "value": "UA-1234-5",
+    "param_key": "trackingId",
+}
+
+# workspace1.create_variable(workspace_path, cookie_variable_info)
 # workspace1.create_variable(workspace_path, datalayer_variable_info)
+# workspace1.create_variable(workspace_path, cjs_variable_info)
+# workspace1.create_variable(workspace_path, ga_settings_variable_info)
 
 # ga_settings = workspace1.get_variable_by_name(workspace_path, 'Google Analytics settings')
 # workspace1.variable_info(ga_settings)
 
 
 ### GTM BUILT_IN_VARIABLE ###
-#built_in_variable_list = gtm_controller.get_built_in_variable_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
-#gtm_controller.print_built_in_variable_list(built_in_variable_list)
+# built_in_variable_list = gtm_controller.get_built_in_variable_list(ACCOUNT_ID, CONTAINER_ID, WORKSPACE_ID)
+# gtm_controller.print_built_in_variable_list(built_in_variable_list)
 
-### TODO 3: create & get built_in_variable
+### TODO 3: activate all buit_in_variable & get built_in_variable
 
 
 ### TODO 1: create version

@@ -75,7 +75,7 @@ python project/main.py
 
 ## Functions
 
-### GTM Controller (gtm_controller.py)
+### GTM Controller (gtm_controller.py) - Composite
 - get all accounts
 - print all accounts 
 - get all containers
@@ -89,23 +89,23 @@ python project/main.py
 - get all variables
 - print all variables
 
-### GTM Account (account.py)
+### GTM Account (account.py) - GTM-Controller Component
 - get a specific account
 - get the info of a account
 - get the name of a account
 - get the id of a account
 - get the path of a account
 
-### GTM Container (container.py)
+### GTM Container (container.py) - GTM-Controller Component
 - get a specific container
 - get the info of a container
 - get the name of a container
 - get the id of a container
 - get the path of a container
 
-### GTM Workspace (workspace.py)
+### GTM Workspace (workspace.py) - GTM-Controller Component
 - get a specific workspace
-- create an extra workspace
+- create an workspace
 - get the info of a workspace
 - get the name of a workspace
 - get the id of a workspace
@@ -113,7 +113,7 @@ python project/main.py
 - get the container id of a workspace
 - get the account id of a workspace
 
-### GTM Tag (tag.py)
+### GTM Tag (tag.py) - Workspace's Component
 - create tag
 - create html tag
 - create google analytics pageview tag
@@ -126,12 +126,12 @@ python project/main.py
 - connection tag and trigger
 - get total info of a tag
 
-### GTM Trigger (trigger.py)
+### GTM Trigger (trigger.py) - Workspace's Component
 - create a trigger
 - get a spcific trigger by the name
 - get total info of a tag
 
-### GTM Variable (variable.py)
+### GTM Variable (variable.py) - Workspace's Component
 - create a variable
 - get a spcific variables
 - get all build-in variables
