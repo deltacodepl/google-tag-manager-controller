@@ -1,21 +1,21 @@
 from pprint import pprint
 
-class GTMVariable():
 
-    def __init__(self, workspaces): 
-        
+class Variable:
+    def __init__(self, workspaces):
+
         if workspaces:
             self.variables = workspaces.variables()
         else:
             print("workspaces not exist")
 
-    def _create_variable(self, workspace_path, variable_info):
+    def create_variable(self, workspace_path, variable_info):
 
         variable = {
-            'name': variable_info['variable_name'],
-            'type': variable_info['variable_type'],
-            'parameter': [
-                {'key': 'name', 'type': 'template', 'value': variable_info['dlv_name']}
+            "name": variable_info["variable_name"],
+            "type": variable_info["variable_type"],
+            "parameter": [
+                {"key": "name", "type": "template", "value": variable_info["dlv_name"]}
             ],
         }
         try:
@@ -23,16 +23,16 @@ class GTMVariable():
         except:
             print("this variable exists")
 
-    def _get_variable_by_name(self, workspace_path, variable_name):
+    def get_variable_by_name(self, workspace_path, variable_name):
         variables = self.variables.list(parent=workspace_path).execute()
         result = None
-        
-        for variable in variables['variable']:
-            if(variable['name'] == variable_name):
+
+        for variable in variables["variable"]:
+            if variable["name"] == variable_name:
                 result = variable
             else:
-                pass    
+                pass
         return result
 
-    def _info(self, variable):
+    def variable_info(self, variable):
         pprint(variable)

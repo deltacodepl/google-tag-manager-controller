@@ -1,11 +1,11 @@
 from pprint import pprint
 
-class GTMAccount():
 
-    def __init__(self, accounts, account_id): 
-        path = f'accounts/{account_id}'
-        request = accounts.get(path=path)
-        
+class Account:
+    def __init__(self, accounts, account_id):
+        self.path = f"accounts/{account_id}"
+        request = accounts.get(path=self.path)
+
         if request:
             self.account = request.execute()
         else:
@@ -15,10 +15,10 @@ class GTMAccount():
         pprint(self.account)
 
     def _name(self):
-        return self.account['name']
+        return self.account["name"]
 
     def _id(self):
-        return self.account['accountId']
+        return self.account["accountId"]
 
     def _path(self):
-        return self.account['path']
+        return self.account["path"]
