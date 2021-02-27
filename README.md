@@ -17,6 +17,9 @@ The Google Tag Manager API handles millions of operations. To protect the system
 https://developers.google.com/tag-manager/api/v2/reference
 https://developers.google.com/tag-manager/api/v2/devguide
 
+## Software architecture
+
+![GitHub Logo](/images/gtm_controller.png)
 ## Quota Limits
 - 50,000 requests per project per day, which can be increased.
 - 10 queries per second (QPS) per IP address
@@ -88,6 +91,3 @@ you can create new workspace, tag, trigger, variable and publish by using gtm_cr
 python project/run_creator.py
 ```
 
-## Software Concept
-
-![GitHub Logo](/images/gtm_controller.png)
