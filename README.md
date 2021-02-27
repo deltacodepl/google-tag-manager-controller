@@ -73,72 +73,19 @@ WORKSPACE_NAME = config('WORKSPACE_NAME')
 WORKSPACE_ID = config('WORKSPACE_ID')
 ```
 
-### 8. run the main.py
+### 8. see the GTM information to run the run_scanner.py
+you can see the account, container, workspace, tag, trigger, variable information by using gtm_scanner.py
+
 ```bash
-python project/main.py
+python project/run_scanner.py
 ```
 
+### 8. update GTM
+you can create new workspace, tag, trigger, variable and publish by using gtm_creator.py
 
-## Functions
 
-### GTM Controller (gtm_controller.py) - Composite
-- get all accounts
-- print all accounts 
-- get all containers
-- print all containers
-- get all workspaces
-- print all workspaces
-- get all tags
-- print all tags
-- get all triggers
-- print all trigger
-- get all variables
-- print all variables
+```bash
+python project/run_creator.py
+```
 
-### GTM Account (account.py) - GTM-Controller Component
-- get a specific account
-- get the info of a account
-- get the name of a account
-- get the id of a account
-- get the path of a account
-
-### GTM Container (container.py) - GTM-Controller Component
-- get a specific container
-- get the info of a container
-- get the name of a container
-- get the id of a container
-- get the path of a container
-
-### GTM Workspace (workspace.py) - GTM-Controller Component
-- get a specific workspace
-- create an workspace
-- get the info of a workspace
-- get the name of a workspace
-- get the id of a workspace
-- get the path of a workspace
-- get the container id of a workspace
-- get the account id of a workspace
-
-### GTM Tag (tag.py) - Workspace's Component
-- create tag
-- create html tag
-- create google analytics pageview tag
-- create google analytics event tag
-- create google ads remarkting tag
-- create google ads conversion tag
-- create floodlight counter tag
-- create floodlight sales tag
-- get a spcific tag by the name
-- connection tag and trigger
-- get total info of a tag
-
-### GTM Trigger (trigger.py) - Workspace's Component
-- create a trigger
-- get a spcific trigger by the name
-- get total info of a tag
-
-### GTM Variable (variable.py) - Workspace's Component
-- create a variable
-- get a spcific variables
-- get all build-in variables
-
+## Software Concept
