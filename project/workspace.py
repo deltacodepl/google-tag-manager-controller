@@ -1,46 +1,52 @@
 from pprint import pprint
-from container import Container
 from tag import Tag
 from trigger import Trigger
 from variable import Variable
 
 
-class Workspace(Container):
-    def __init__(self, container_path, workspaces, workspace_name):
+class Workspace:
+    def __init__(self, service):
+        self.workspaces = service.accounts().containers().workspaces()
 
-        request = workspaces.list(parent=container_path)
+    def get_workspaces(self, account_id, container_id):
+        path = f"accounts/{account_id}/containers/{container_id}"
+        return self.workspaces.list(parent=path).execute()
 
-        if request:
-            workspace_list = request.execute()
-            for ws in workspace_list["workspace"]:
-                if workspace_name == ws["name"]:
-                    self.workspace = ws
-                else:
-                    pass
-        else:
-            print("workspace not exist")
+    def set_workspace(self, workspace_list, workspace_name):
 
-        self.tag = Tag(workspaces)
-        self.trigger = Trigger(workspaces)
-        self.variable = Variable(workspaces)
+        for ws in workspace_list["workspace"]:
+            if ws["name"] == workspace_name:
+                self.workspace = ws
+            else:
+                pass
 
-    def _info(self):
+        self.tag = Tag(self.workspaces)
+        self.trigger = Trigger(self.workspaces)
+        self.variable = Variable(self.workspaces)
+
+    def print_info(self):
         pprint(self.workspace)
 
-    def _name(self):
+    def get_name(self):
         return self.workspace["name"]
 
-    def _id(self):
+    def get_id(self):
         return self.workspace["workspaceId"]
 
-    def _path(self):
+    def get_path(self):
         return self.workspace["path"]
 
-    def _container_id(self):
-        return self.workspace["containerId"]
+    def create_workspace(self, workspace, container_path, workspace_name, workspace_count):
 
-    def _account_id(self):
-        return self.workspace["accountId"]
+        if workspace_count < 3:
+            try:
+                self.workspaces.create(
+                    parent=container_path, body={"name": workspace_name}
+                ).execute()
+            except:
+                print("This Workspace exsists!")
+        else:
+            print("workspace limit! you cannot creat more than 3")
 
     def create_tag(self, workspace_path, tag_info):
 
@@ -62,38 +68,29 @@ class Workspace(Container):
         if tag_info["tag_type"] == "fls":
             self.tag.create_fls(workspace_path, tag_info)
 
-    def get_tag_by_name(self, workspace_path, tag_name):
-        return self.tag.get_tag_by_name(workspace_path, tag_name)
-
-    def tag_info(self, tag):
-        self.tag.tag_info(tag)
-
-    def connect_tag_trigger(self, tag, trigger):
-        self.tag.connect_tag_trigger(tag, trigger)
-
     def create_trigger(self, workspace_path, trigger_info):
         self.trigger.create_trigger(workspace_path, trigger_info)
-
-    def get_trigger_by_name(self, workspace_path, trigger_name):
-        return self.trigger.get_trigger_by_name(workspace_path, trigger_name)
-
-    def trigger_info(self, trigger):
-        self.trigger.trigger_info(trigger)
 
     def create_variable(self, workspace_path, variable_info):
         self.variable.create_variable(workspace_path, variable_info)
 
+    def connect_tag_trigger(self, tag, trigger):
+        self.tag.connect_tag_trigger(tag, trigger)
+
+    def get_tag_by_name(self, workspace_path, tag_name):
+        return self.tag.get_tag_by_name(workspace_path, tag_name)
+
+    def get_trigger_by_name(self, workspace_path, trigger_name):
+        return self.trigger.get_trigger_by_name(workspace_path, trigger_name)
+
     def get_variable_by_name(self, workspace_path, variable_name):
         return self.variable.get_variable_by_name(workspace_path, variable_name)
 
-    def variable_info(self, variable):
+    def print_tag_info(self, tag):
+        self.tag.tag_info(tag)
+
+    def print_trigger_info(self, trigger):
+        self.trigger.trigger_info(trigger)
+
+    def print_variable_info(self, variable):
         self.variable.variable_info(variable)
-
-    def create_workspace(self, container_path, workspaces, workspace_name, workspace_count):
-
-        if not (workspace_name == self.workspace["name"]) and workspace_count < 3:
-            return workspaces.create(
-                parent=container_path, body={"name": workspace_name}
-            ).execute()
-        else:
-            return "workspace is still exist"

@@ -1,29 +1,29 @@
 from pprint import pprint
-from account import Account
 
 
-class Container(Account):
-    def __init__(self, account_path, containers, container_name):
-        request = containers.list(parent=account_path)
+class Container:
+    def __init__(self, service):
+        self.containers = service.accounts().containers()
 
-        if request:
-            containers = request.execute()
-            for con in containers["container"]:
-                if con["name"] == container_name:
-                    self.container = con
-                else:
-                    print("this container not exist")
-        else:
-            print("container not exist")
+    def get_containers(self, account_id):
+        account_path = f"accounts/{account_id}"
+        return self.containers.list(parent=account_path).execute()
 
-    def _info(self):
+    def set_container(self, container_list, container_name):
+        for con in container_list["container"]:
+            if con["name"] == container_name:
+                self.container = con
+            else:
+                pass
+
+    def print_info(self):
         pprint(self.container)
 
-    def _name(self):
+    def get_name(self):
         return self.container["name"]
 
-    def _id(self):
+    def get_id(self):
         return self.container["containerId"]
 
-    def _path(self):
+    def get_path(self):
         return self.container["path"]
