@@ -80,7 +80,7 @@ you can see the account, container, workspace, tag, trigger, variable informatio
 python project/run_scanner.py
 ```
 
-### 8. update GTM
+### 8. update GTM setup
 you can create new workspace, tag, trigger, variable and publish by using gtm_creator.py
 
 
