@@ -20,9 +20,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def create_ga_pageview(self, workspace_path, tag_info):
 
@@ -39,9 +41,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def create_ga_event(self, workspace_path, tag_info):
 
@@ -79,9 +83,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def create_gads(self, workspace_path, tag_info):
 
@@ -103,9 +109,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def create_flc(self, workspace_path, tag_info):
 
@@ -133,9 +141,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def create_fls(self, workspace_path, tag_info):
 
@@ -165,9 +175,11 @@ class Tag:
         }
 
         try:
-            return self.tags.create(parent=workspace_path, body=tag).execute()
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            print(" 🎉 TAG Created 🎉")
+            return self.tags
         except:
-            print("this tag exists")
+            print("💣 TAG not Created 💣")
 
     def get_tag_by_name(self, workspace_path, tag_name):
         tags = self.tags.list(parent=workspace_path).execute()

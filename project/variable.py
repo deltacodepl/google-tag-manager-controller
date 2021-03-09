@@ -25,7 +25,7 @@ class Variable:
         try:
             return self.variables.create(parent=workspace_path, body=variable).execute()
         except:
-            print("this variable exists")
+            print("💣 TRIGGER not Created 💣")
 
     def get_variable_by_name(self, workspace_path, variable_name):
         variables = self.variables.list(parent=workspace_path).execute()

@@ -17,9 +17,11 @@ class Trigger:
         }
 
         try:
-            return self.triggers.create(parent=workspace_path, body=trigger).execute()
+            self.triggers.create(parent=workspace_path, body=trigger).execute()
+            print(" 🎉 TRIGGER Created 🎉")
+            return self.triggers
         except:
-            print("this trigger exists")
+            print("💣 TRIGGER not Created 💣")
 
     def get_trigger_by_name(self, workspace_path, trigger_name):
         triggers = self.triggers.list(parent=workspace_path).execute()
