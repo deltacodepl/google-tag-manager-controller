@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # display_container(container)
 
     ### CALL WORKSPACE INFO ###
-    # display_all_workspaces(ACCOUNT_ID, CONTAINER_ID)
+    #display_all_workspaces(ACCOUNT_ID, CONTAINER_ID)
     workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
     workspace = gtm_scanner.get_workspace(workspaces, WORKSPACE_NAME)
     # display_workspace(workspace)
@@ -70,13 +70,32 @@ if __name__ == "__main__":
     ### CALL GTM OVERVIEW ###
     # display_gtm_overview()
 
-    ### SELECT TAG & TRIGGER & VARIABLE ###
+    ### CALL ALL TAGS ###
+    # workspace_path = workspace.get_path()
+    # all_tags = gtm_scanner.get_tags(workspace_path)
+    # for tag in all_tags["tag"]:
+    #     gtm_scanner.print_tag_info(tag)
+
+    ### CALL ALL TRIGGERS ###
+    # workspace_path = workspace.get_path()
+    # all_triggers = gtm_scanner.get_triggers(workspace_path)
+    # for trigger in all_triggers["trigger"]:
+    #     gtm_scanner.print_trigger_info(trigger)
+
+    ### CALL ALL VARIABLES ###
     workspace_path = workspace.get_path()
-    tag = gtm_scanner.get_tag_by_name(workspace_path, 'GA_PV_TAG')
-    trigger = gtm_scanner.get_trigger_by_name(workspace_path, 'PV_TRIGGER')
-    variable = gtm_scanner.get_variable_by_name(workspace_path, 'COOKIE_SAMPLE')
+    all_variables = gtm_scanner.get_variables(workspace_path)
+    for variable in all_variables["variable"]:
+        gtm_scanner.print_variable_info(variable)
+
+
+    ### SELECT TAG & TRIGGER & VARIABLE ###
+    # workspace_path = workspace.get_path()
+    # tag = gtm_scanner.get_tag_by_name(workspace_path, 'GA_PV_TAG')
+    # trigger = gtm_scanner.get_trigger_by_name(workspace_path, 'PV_TRIGGER')
+    # variable = gtm_scanner.get_variable_by_name(workspace_path, 'COOKIE_SAMPLE')
 
     ### SHOW TAG & TRIGGER & VARIABLE INFO ###
-    gtm_scanner.print_tag_info(tag)
-    gtm_scanner.print_trigger_info(trigger)
-    gtm_scanner.print_variable_info(variable)
+    # gtm_scanner.print_tag_info(tag)
+    # gtm_scanner.print_trigger_info(trigger)
+    # gtm_scanner.print_variable_info(variable)

@@ -77,11 +77,20 @@ class Workspace:
     def connect_tag_trigger(self, tag, trigger):
         self.tag.connect_tag_trigger(tag, trigger)
 
+    def get_tags(self, workspace_path):
+        return self.tag.get_tags(workspace_path)
+
     def get_tag_by_name(self, workspace_path, tag_name):
         return self.tag.get_tag_by_name(workspace_path, tag_name)
 
+    def get_triggers(self, workspace_path):
+        return self.trigger.get_triggers(workspace_path)
+
     def get_trigger_by_name(self, workspace_path, trigger_name):
         return self.trigger.get_trigger_by_name(workspace_path, trigger_name)
+
+    def get_variables(self, workspace_path):
+        return self.variable.get_variables(workspace_path)
 
     def get_variable_by_name(self, workspace_path, variable_name):
         return self.variable.get_variable_by_name(workspace_path, variable_name)

@@ -27,6 +27,10 @@ class Variable:
         except:
             print("💣 TRIGGER not Created 💣")
 
+    def get_variables(self, workspace_path):
+        variables = self.variables.list(parent=workspace_path).execute()
+        return variables
+
     def get_variable_by_name(self, workspace_path, variable_name):
         variables = self.variables.list(parent=workspace_path).execute()
         result = None

@@ -3,12 +3,13 @@ from service import get_service
 from gtm_creator import GTMCreator
 from gtm_scanner import GTMScanner
 from pprint import pprint
+from sheets import setup, get_listed_values
+import json
 
 def create_workspace(workspace, container_path, workspace_count):
     new_workspace = gtm_creator.create_workspace(
         workspace, container_path, "TAAG_WORKSPACE", workspace_count
     )
-
 
 def create_tags(workspace_path):
 
@@ -74,14 +75,39 @@ def create_tags(workspace_path):
 
     # html_tag = gtm_creator.create_tag(workspace_path, html_tag_info)
     # html_tag = gtm_creator.create_tag(workspace_path, html_tag2_info)
-    ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag_info)
-    ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag2_info)
+    # ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag_info)
     # ga_event_tag = gtm_creator.create_tag(workspace_path, ga_event_tag_info)
     # gads_conv_tag = gtm_creator.create_tag(workspace_path, gads_conv_tag_info)
     # gads_rm_tag = gtm_creator.create_tag(workspace_path, gads_rm_tag_info)
     # flc_tag = gtm_creator.create_tag(workspace_path, flc_tag_info)
     # fls_tag = gtm_creator.create_tag(workspace_path, fls_tag_info)
 
+def create_tags_sheet(workspace_path, tags):
+
+    for tag in tags:
+        tag_type = tag[1]
+        tag_name = tag[2]
+        details = tag[3]
+        
+        if tag_type == 'ua_pv':
+            tag_info = {"tag_name": tag_name, "tag_type": tag_type, "ua_id": details} 
+            ga_pv_tag = gtm_creator.create_tag(workspace_path, tag_info)
+
+        elif tag_type == 'awct':
+            conv_id, conv_label = details.split('|')     
+            tag_info = {"tag_name": tag_name, "tag_type": tag_type, "conv_id": conv_id, "conv_label": conv_label}
+            gads_conv_tag = gtm_creator.create_tag(workspace_path, tag_info)
+
+        elif tag_type == 'html':
+            tag_info = {"tag_name": tag_name, "tag_type": tag_type, "script": details}
+            html_tag = gtm_creator.create_tag(workspace_path, tag_info)
+
+        else:
+            tag_info = None
+            
+def create_triggers_sheets(workspace_path, triggers):
+    #TODO:
+    pass
 
 def create_triggers(workspace_path):
     pv_trigger_info = {"trigger_name": "PV_TRIGGER", "trigger_type": "pageview"}
@@ -91,7 +117,6 @@ def create_triggers(workspace_path):
     pv_trigger = gtm_creator.create_trigger(workspace_path, pv_trigger_info)
     click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger_info)
     click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger2_info)
-
 
 def create_variable(workspace_path):
     script = 'function(){\n  return console.log("heyo")\n}'
@@ -126,6 +151,20 @@ def create_variable(workspace_path):
     gtm_creator.create_variable(workspace_path, cjs_variable_info)
     gtm_creator.create_variable(workspace_path, ga_settings_variable_info)
 
+def read_tags_from_sheets():
+    sheets_id = '17Nu32XCIIENCtmQRx9olx5R0dh4eb6CRuP99ik1d3hk' #Part_Of_Google_Sheets_URL
+    tab = 'tag!A1:G50'
+    sheet = setup(sheets_id)
+    result = get_listed_values(sheets_id, sheet, tab)
+    return result
+
+def read_triggers_from_sheets():
+    sheets_id = '17Nu32XCIIENCtmQRx9olx5R0dh4eb6CRuP99ik1d3hk' #Part_Of_Google_Sheets_URL
+    tab = 'trigger!A1:G50'
+    sheet = setup(sheets_id)
+    result = get_listed_values(sheets_id, sheet, tab)
+    return result
+
 
 if __name__ == "__main__":
 
@@ -153,7 +192,12 @@ if __name__ == "__main__":
     workspace = gtm_creator.get_workspace(workspaces, WORKSPACE_NAME)
     workspace_count = gtm_creator.count_workspaces(workspaces)
     path = workspace.get_path()
-    print(path)
+
+    tags = read_tags_from_sheets()
+    create_tags_sheet(path, tags)
+
+    # trigger = read_triggers_from_sheets()
+    # print(trigger)
 
     ### CREATE WORKSPACES ###
     # create_workspace(workspace, container_path, workspace_count)
@@ -168,14 +212,14 @@ if __name__ == "__main__":
     #create_variable(path)
 
     ### CONNECT TAG + TRIGGER ###
-    scanner_workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
-    scanner_workspace = gtm_scanner.get_workspace(scanner_workspaces, WORKSPACE_NAME)
-    scanner_ws_path = scanner_workspace.get_path()
+    # scanner_workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
+    # scanner_workspace = gtm_scanner.get_workspace(scanner_workspaces, WORKSPACE_NAME)
+    # scanner_ws_path = scanner_workspace.get_path()
 
-    tag = gtm_scanner.get_tag_by_name(scanner_ws_path, 'GA_PV_TAG_2')
-    trigger = gtm_scanner.get_trigger_by_name(scanner_ws_path, 'PV_TRIGGER')
+    # tag = gtm_scanner.get_tag_by_name(scanner_ws_path, 'GA_PV_TAG_2')
+    # trigger = gtm_scanner.get_trigger_by_name(scanner_ws_path, 'PV_TRIGGER')
 
-    gtm_creator.connect_tag_trigger(tag, trigger)
+    # gtm_creator.connect_tag_trigger(tag, trigger)
 
     ### TODO 1: create version
     # gtm_creator.create_version(workspace_path)

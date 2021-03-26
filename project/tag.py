@@ -181,6 +181,10 @@ class Tag:
         except:
             print("💣 TAG not Created 💣")
 
+    def get_tags(self, workspace_path):
+        tags = self.tags.list(parent=workspace_path).execute()
+        return tags
+
     def get_tag_by_name(self, workspace_path, tag_name):
         tags = self.tags.list(parent=workspace_path).execute()
 

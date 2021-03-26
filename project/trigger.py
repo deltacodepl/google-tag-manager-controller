@@ -23,6 +23,10 @@ class Trigger:
         except:
             print("💣 TRIGGER not Created 💣")
 
+    def get_triggers(self, workspace_path):
+        triggers = self.triggers.list(parent=workspace_path).execute()
+        return triggers
+
     def get_trigger_by_name(self, workspace_path, trigger_name):
         triggers = self.triggers.list(parent=workspace_path).execute()
 

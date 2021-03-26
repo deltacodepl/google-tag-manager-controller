@@ -16,6 +16,7 @@ class GTMScanner(GTMBase):
         print("👾 NAME: ", account.get_name())
         print("👾 ID: ", account.get_id())
         print("👾 PATH: ", account.get_path())
+        print(account.print_info())
 
     def print_container_list(self, container_list):
         for num, container in enumerate(container_list["container"]):
@@ -28,6 +29,7 @@ class GTMScanner(GTMBase):
         print("👾 NAME: ", container.get_name())
         print("👾 ID: ", container.get_id())
         print("👾 PATH: ", container.get_path())
+        print(container.print_info())
 
     def print_workspace_list(self, workspace_list):
         for num, workspace in enumerate(workspace_list["workspace"]):
@@ -40,6 +42,7 @@ class GTMScanner(GTMBase):
         print("👾 NAME: ", workspace.get_name())
         print("👾 ID: ", workspace.get_id())
         print("👾 PATH: ", workspace.get_path())
+        print(workspace.print_info())
 
     def print_total_info(self, account_list):
         for account in account_list["account"]:
@@ -69,3 +72,12 @@ class GTMScanner(GTMBase):
 
     def print_variable_info(self, variable):
         self.workspaces.print_variable_info(variable)
+
+    def get_tags(self, workspace_path):
+        return self.workspaces.get_tags(workspace_path)
+
+    def get_triggers(self, workspace_path):
+        return self.workspaces.get_triggers(workspace_path)
+
+    def get_variables(self, workspace_path):
+        return self.workspaces.get_variables(workspace_path)
