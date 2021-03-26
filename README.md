@@ -76,15 +76,15 @@ WORKSPACE_NAME = config('WORKSPACE_NAME')
 WORKSPACE_ID = config('WORKSPACE_ID')
 ```
 
-### 8. see the GTM information to run the run_scanner.py
-you can see the account, container, workspace, tag, trigger, variable information by using gtm_scanner.py
+### 8. RUN GTM Scanner to see the GTM information
+you can scan the account, container, workspace, tag, trigger, variable information by using gtm_scanner.py
 
 ```bash
 python project/run_scanner.py
 ```
 
-### 8. update GTM setup
-you can create new workspace, tag, trigger, variable and publish by using gtm_creator.py
+### 8. RUN GTM Creator
+you can create new workspaces, tags, triggers, variables and publish these by using gtm_creator.py
 
 
 ```bash
