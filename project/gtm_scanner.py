@@ -73,6 +73,9 @@ class GTMScanner(GTMBase):
     def print_variable_info(self, variable):
         self.workspaces.print_variable_info(variable)
 
+    def print_built_in_variable_info(self, built_in_variable):
+        self.workspaces.print_built_in_variable_info(built_in_variable)
+
     def get_tags(self, workspace_path):
         return self.workspaces.get_tags(workspace_path)
 
@@ -81,3 +84,6 @@ class GTMScanner(GTMBase):
 
     def get_variables(self, workspace_path):
         return self.workspaces.get_variables(workspace_path)
+
+    def get_built_in_variables(self, workspace_path):
+        return self.workspaces.get_built_in_variables(workspace_path)

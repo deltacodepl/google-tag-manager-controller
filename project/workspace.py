@@ -27,6 +27,9 @@ class Workspace:
     def print_info(self):
         pprint(self.workspace)
 
+    def print_workspace_val(self):
+        vals = self.workspace
+
     def get_name(self):
         return self.workspace["name"]
 
@@ -48,6 +51,34 @@ class Workspace:
         else:
             print("workspace limit! you cannot creat more than 3")
 
+    def create_version(self, version_name, notes):
+        
+        path = self.workspace["path"]
+        request = self.workspaces.create_version(
+            path=path, body={"name": version_name, "notes": notes}
+        )
+
+        response = request.execute()
+
+        container_version = response.get("containerVersion")
+        return container_version
+
+        #TODO: RETURN CONTAINER VERSION #
+
+        # version = gtm_manager.version.GTMVersion(
+        #     version=response.get("containerVersion"), service=self.service
+        # )
+
+        # if version.containerVersionId == "0":
+        #     raise Exception(
+        #         "Could not create version from workspace. Please visit {} for details".format(
+        #             self.tagManagerUrl
+        #         )
+        #     )
+
+        # return version
+
+    
     def create_tag(self, workspace_path, tag_info):
 
         if tag_info["tag_type"] == "html":
@@ -92,6 +123,9 @@ class Workspace:
     def get_variables(self, workspace_path):
         return self.variable.get_variables(workspace_path)
 
+    def get_built_in_variables(self, workspace_path):
+        return self.variable.get_built_in_variables(workspace_path)
+
     def get_variable_by_name(self, workspace_path, variable_name):
         return self.variable.get_variable_by_name(workspace_path, variable_name)
 
@@ -103,3 +137,6 @@ class Workspace:
 
     def print_variable_info(self, variable):
         self.variable.variable_info(variable)
+
+    def print_built_in_variable_info(self, built_in_variable):
+        self.variable.built_in_variable_info(built_in_variable)

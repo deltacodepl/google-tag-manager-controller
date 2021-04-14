@@ -10,7 +10,14 @@ CONTAINER_ID = config("CONTAINER_ID")
 WORKSPACE_NAME = config("WORKSPACE_NAME")
 WORKSPACE_ID = config("WORKSPACE_ID")
 
-scope = ["https://www.googleapis.com/auth/tagmanager.edit.containers"]
+scope = [
+    "https://www.googleapis.com/auth/tagmanager.edit.containers", 
+    "https://www.googleapis.com/auth/tagmanager.delete.containers",
+    "https://www.googleapis.com/auth/tagmanager.edit.containerversions",
+    "https://www.googleapis.com/auth/tagmanager.publish", 
+    "https://www.googleapis.com/auth/tagmanager.manage.users",
+    "https://www.googleapis.com/auth/tagmanager.manage.accounts",
+    ]
 service = get_service("tagmanager", "v2", scope, CLIENT_SECRETS)
 
 gtm_scanner = GTMScanner(service)
@@ -62,16 +69,27 @@ if __name__ == "__main__":
     # display_container(container)
 
     ### CALL WORKSPACE INFO ###
-    #display_all_workspaces(ACCOUNT_ID, CONTAINER_ID)
+    # display_all_workspaces(ACCOUNT_ID, CONTAINER_ID)
     workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
     workspace = gtm_scanner.get_workspace(workspaces, WORKSPACE_NAME)
-    # display_workspace(workspace)
+
+    ### CREATE & READ GTM Container Version ###
+    #container_version = workspace.create_version('yt version x', 'this is some notes')
+    # containers = gtm_scanner.get_containers(ACCOUNT_ID)
+    # container = gtm_scanner.get_container(containers, CONTAINER_NAME)
+    # container_version = container.get_container_version()
+    # print(container_version)
+
+    #TODO 1#
+    ### Publish the Container Version ###
+
 
     ### CALL GTM OVERVIEW ###
     # display_gtm_overview()
 
     ### CALL ALL TAGS ###
     # workspace_path = workspace.get_path()
+    # print(workspace_path)
     # all_tags = gtm_scanner.get_tags(workspace_path)
     # for tag in all_tags["tag"]:
     #     gtm_scanner.print_tag_info(tag)
@@ -83,16 +101,25 @@ if __name__ == "__main__":
     #     gtm_scanner.print_trigger_info(trigger)
 
     ### CALL ALL VARIABLES ###
-    workspace_path = workspace.get_path()
-    all_variables = gtm_scanner.get_variables(workspace_path)
-    for variable in all_variables["variable"]:
-        gtm_scanner.print_variable_info(variable)
+    # workspace_path = workspace.get_path()
+    # all_variables = gtm_scanner.get_variables(workspace_path)
+    # for variable in all_variables["variable"]:
+    #     gtm_scanner.print_variable_info(variable)
 
+    ### CALL ALL BUILT_IN_VARIABLES ###
+    # workspace_path = workspace.get_path()
+    # built_in_variables = gtm_scanner.get_built_in_variables(workspace_path)
+    # for built_in_val in built_in_variables["builtInVariable"]:
+    #     gtm_scanner.print_built_in_variable_info(built_in_val)
 
     ### SELECT TAG & TRIGGER & VARIABLE ###
     # workspace_path = workspace.get_path()
     # tag = gtm_scanner.get_tag_by_name(workspace_path, 'GA_PV_TAG')
+    # print(tag.get('firingTriggerId')[0])
+
     # trigger = gtm_scanner.get_trigger_by_name(workspace_path, 'PV_TRIGGER')
+    # print(trigger.get('triggerId'))
+
     # variable = gtm_scanner.get_variable_by_name(workspace_path, 'COOKIE_SAMPLE')
 
     ### SHOW TAG & TRIGGER & VARIABLE INFO ###

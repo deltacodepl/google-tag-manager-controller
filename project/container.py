@@ -27,3 +27,7 @@ class Container:
 
     def get_path(self):
         return self.container["path"]
+
+    def get_container_version(self):        
+        versions = self.containers.versions
+        return versions

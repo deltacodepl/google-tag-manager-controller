@@ -6,6 +6,8 @@ class Variable:
 
         if workspaces:
             self.variables = workspaces.variables()
+            self.built_in_variable = workspaces.built_in_variables()
+
         else:
             print("workspaces not exist")
 
@@ -31,6 +33,10 @@ class Variable:
         variables = self.variables.list(parent=workspace_path).execute()
         return variables
 
+    def get_built_in_variables(self, workspace_path):
+        built_in_variables = self.built_in_variable.list(parent=workspace_path).execute()
+        return built_in_variables
+
     def get_variable_by_name(self, workspace_path, variable_name):
         variables = self.variables.list(parent=workspace_path).execute()
         result = None
@@ -44,3 +50,6 @@ class Variable:
 
     def variable_info(self, variable):
         pprint(variable)
+
+    def built_in_variable_info(self, built_in_variable):
+        pprint(built_in_variable)

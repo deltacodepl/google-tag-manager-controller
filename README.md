@@ -39,10 +39,10 @@ source ./venv/bin/activate (Mac) or venv\Scripts\activate (Windows)
 pip install -r requirements.txt
 ```
 
-### 2. create the service account in GCP for the Google Analytics API
+### 2. create the service account & OAuth client in GCP for the Google Tag Manager API
 https://console.cloud.google.com/
 
-### 3. download the json file of the service account
+### 3. download the client secrets.json (OAuth 2.0 Client ID)
 
 ### 4. create conf repository and locate client_secrets.json into this repository
 

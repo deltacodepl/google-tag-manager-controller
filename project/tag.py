@@ -6,6 +6,7 @@ class Tag:
 
         if workspaces:
             self.tags = workspaces.tags()
+
         else:
             print("workspaces not exist")
 
