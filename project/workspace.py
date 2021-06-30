@@ -51,17 +51,17 @@ class Workspace:
         else:
             print("workspace limit! you cannot creat more than 3")
 
-    def create_version(self, version_name, notes):
+    def create_version(self, workspace_path, container_version, version_name, notes):
         
-        path = self.workspace["path"]
         request = self.workspaces.create_version(
-            path=path, body={"name": version_name, "notes": notes}
+            path=workspace_path, body={"name": version_name, "notes": notes}
         )
 
         response = request.execute()
 
-        container_version = response.get("containerVersion")
-        return container_version
+        get_cv = response.get("containerVersion")
+
+        return get_cv
 
         #TODO: RETURN CONTAINER VERSION #
 

@@ -184,17 +184,17 @@ if __name__ == "__main__":
 
     # account = gtm_creator.get_account(ACCOUNT_ID)
 
-    containers = gtm_creator.get_containers(ACCOUNT_ID)
-    container = gtm_creator.get_container(containers, CONTAINER_NAME)
-    container_path = container.get_path()
+    # containers = gtm_creator.get_containers(ACCOUNT_ID)
+    # container = gtm_creator.get_container(containers, CONTAINER_NAME)
+    # container_path = container.get_path()
 
     workspaces = gtm_creator.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
     workspace = gtm_creator.get_workspace(workspaces, WORKSPACE_NAME)
-    workspace_count = gtm_creator.count_workspaces(workspaces)
-    path = workspace.get_path()
+    workspace_path = workspace.get_path()
+    print(workspace_path)
 
-    tags = read_tags_from_sheets()
-    create_tags_sheet(path, tags)
+    # tags = read_tags_from_sheets()
+    # create_tags_sheet(workspace_path, tags)
 
     # trigger = read_triggers_from_sheets()
     # print(trigger)
@@ -203,26 +203,36 @@ if __name__ == "__main__":
     # create_workspace(workspace, container_path, workspace_count)
 
     ### CREATE TAGS ###
-    #create_tags(path)
+    #create_tags(workspace_path)
 
     ### CREATE TRIGGERS ###
-    # create_triggers(path)
+    # create_triggers(workspace_path)
 
     ### CREATE VARIABLES ###
-    #create_variable(path)
+    #create_variable(workspace_path)
 
     ### CONNECT TAG + TRIGGER ###
     # scanner_workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
     # scanner_workspace = gtm_scanner.get_workspace(scanner_workspaces, WORKSPACE_NAME)
     # scanner_ws_path = scanner_workspace.get_path()
-
     # tag = gtm_scanner.get_tag_by_name(scanner_ws_path, 'GA_PV_TAG_2')
     # trigger = gtm_scanner.get_trigger_by_name(scanner_ws_path, 'PV_TRIGGER')
-
     # gtm_creator.connect_tag_trigger(tag, trigger)
 
+
+
     ### TODO 1: create version
-    # gtm_creator.create_version(workspace_path)
+    ### CREATE & READ GTM Container Version ###
+    containers = gtm_scanner.get_containers(ACCOUNT_ID)
+    container = gtm_scanner.get_container(containers, CONTAINER_NAME)
+    container_version = container.get_container_version()
+
+    print(dir(container_version))
+    # new_container_version = gtm_creator.create_version(workspace_path, container_version, 'yt version x', 'this is some notes')
+    # print(new_container_version)
+
+    #TODO 1#
+    ### Publish the Container Version ###
 
     ### TODO 2: publish the version
     # version = GTMVersion(workspace)

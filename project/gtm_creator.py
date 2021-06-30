@@ -21,3 +21,6 @@ class GTMCreator(GTMBase):
 
     def connect_tag_trigger(self, tag, trigger):
         self.workspaces.connect_tag_trigger(tag, trigger)
+
+    def create_version(self, workspace_path, container_version, version_name, notes):
+        return self.workspaces.create_version(workspace_path, container_version, version_name, notes)
