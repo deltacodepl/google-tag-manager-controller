@@ -2,14 +2,14 @@ import argparse
 import sys
 import httplib2
 
-from apiclient.discovery import build
+#from apiclient.discovery import build
+from googleapiclient import discovery
 from oauth2client import client
 from oauth2client import file
 from oauth2client import tools
 
 
 def get_service(api_name, api_version, scope, client_secrets_path):
-
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter, parents=[tools.argparser]
     )
@@ -27,6 +27,6 @@ def get_service(api_name, api_version, scope, client_secrets_path):
         credentials = tools.run_flow(flow, storage, flags)
     http = credentials.authorize(http=httplib2.Http())
 
-    service = build(api_name, api_version, http=http)
+    service = discovery.build(api_name, api_version, http=http)
 
     return service

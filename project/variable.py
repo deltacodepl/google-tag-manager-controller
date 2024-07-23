@@ -7,7 +7,6 @@ class Variable:
         if workspaces:
             self.variables = workspaces.variables()
             self.built_in_variable = workspaces.built_in_variables()
-
         else:
             print("workspaces not exist")
 
