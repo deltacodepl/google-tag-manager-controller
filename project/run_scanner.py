@@ -27,28 +27,22 @@ def display_all_accounts():
     accounts = gtm_scanner.get_accounts()
     gtm_scanner.print_account_list(accounts)
 
-
 def display_account(account):
     gtm_scanner.print_account(account)
-
 
 def display_all_containers(account_id):
     containers = gtm_scanner.get_containers(account_id)
     gtm_scanner.print_container_list(containers)
 
-
 def display_container(container):
     gtm_scanner.print_container(container)
-
 
 def display_all_workspaces(account_id, container_id):
     workspaces = gtm_scanner.get_workspaces(account_id, container_id)
     gtm_scanner.print_workspace_list(workspaces)
 
-
 def display_workspace(workspace):
     gtm_scanner.print_workspace(workspace)
-
 
 def display_gtm_overview():
     accounts = gtm_scanner.get_accounts()
