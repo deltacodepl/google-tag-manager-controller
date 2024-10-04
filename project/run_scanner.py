@@ -18,8 +18,8 @@ scope = [
     "https://www.googleapis.com/auth/tagmanager.manage.users",
     "https://www.googleapis.com/auth/tagmanager.manage.accounts",
     ]
-service = get_service("tagmanager", "v2", scope, CLIENT_SECRETS)
 
+service = get_service("tagmanager", "v2", scope, CLIENT_SECRETS)
 gtm_scanner = GTMScanner(service)
 
 
