@@ -87,8 +87,9 @@ class Workspace:
         if tag_info["tag_type"] == "ua_pv":
             self.tag.create_ga_pageview(workspace_path, tag_info)
 
-        if tag_info["tag_type"] == "ua_event":
-            self.tag.create_ga_event(workspace_path, tag_info)
+        if tag_info["tag_type"] == "gaawe":
+            self.tag.create_ga4_tag(workspace_path, tag_info)
+            #self.tag.create_ga_event(workspace_path, tag_info)
 
         if tag_info["tag_type"] == "awct" or tag_info["tag_type"] == "sp":
             self.tag.create_gads(workspace_path, tag_info)
@@ -99,8 +100,9 @@ class Workspace:
         if tag_info["tag_type"] == "fls":
             self.tag.create_fls(workspace_path, tag_info)
 
-    def create_trigger(self, workspace_path, trigger_info):
-        self.trigger.create_trigger(workspace_path, trigger_info)
+
+    def create_trigger(self, workspace_path, trigger_info, filters):
+        self.trigger.create_trigger(workspace_path, trigger_info, filters)
 
     def create_variable(self, workspace_path, variable_info):
         self.variable.create_variable(workspace_path, variable_info)

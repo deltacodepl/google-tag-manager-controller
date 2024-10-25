@@ -1,5 +1,6 @@
 from pprint import pprint
 from gtm_base import GTMBase
+import time
 
 class GTMScanner(GTMBase):
     def __init__(self, service):
@@ -52,17 +53,18 @@ class GTMScanner(GTMBase):
             account_id = account["accountId"]
 
             container_list = self.get_containers(account_id)
-
+            time.sleep(4)
             for container in container_list["container"]:
                 container_id = container["publicId"]
                 print("👾 CONTAINER: ", container_id, " : ", container["name"])
                 container_id = container["containerId"]
 
                 workspace_list = self.get_workspaces(account_id, container_id)
-
+                time.sleep(4)
                 for workspace in workspace_list["workspace"]:
                     workspace_name = workspace["name"]
                     print("⚡️ WORKSPACE: ", workspace_name)
+
 
     def print_tag_info(self, tag):
         self.workspaces.print_tag_info(tag)

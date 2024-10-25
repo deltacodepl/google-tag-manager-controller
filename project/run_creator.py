@@ -6,13 +6,14 @@ from pprint import pprint
 from sheets import setup, get_listed_values
 import json
 
+
 def create_workspace(workspace, container_path, workspace_count):
     new_workspace = gtm_creator.create_workspace(
         workspace, container_path, "TAAG_WORKSPACE", workspace_count
     )
 
-def create_tags(workspace_path):
 
+def create_tags(workspace_path):
     script = "<script> </script>"
 
     html_tag_info = {"tag_name": "HTML_TAG", "tag_type": "html", "script": script}
@@ -32,7 +33,8 @@ def create_tags(workspace_path):
 
     ga_event_tag_info = {
         "tag_name": "GA_EVENT_TAG",
-        "tag_type": "ua_event",
+        # "tag_type": "ua_event",
+        "tag_type": "gaawe",
         "ua_id": "UA-1234-5",
         "ga_settings": "{{Google Analytics settings}}",
         "non_interaction": "false",
@@ -44,8 +46,8 @@ def create_tags(workspace_path):
     gads_conv_tag_info = {
         "tag_name": "GADS_CONV_TAG",
         "tag_type": "awct",
-        "conv_id": "12345",
-        "conv_label": "label1123",
+        "conv_id": "",
+        "conv_label": "GAD_conv",
     }
     gads_rm_tag_info = {
         "tag_name": "GADS_RM_TAG",
@@ -76,25 +78,27 @@ def create_tags(workspace_path):
     # html_tag = gtm_creator.create_tag(workspace_path, html_tag_info)
     # html_tag = gtm_creator.create_tag(workspace_path, html_tag2_info)
     # ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag_info)
-    # ga_event_tag = gtm_creator.create_tag(workspace_path, ga_event_tag_info)
+    if not gtm_creator.get_tag_by_name(workspace_path, ga_event_tag_info["tag_name"]):
+        ga_event_tag = gtm_creator.create_tag(workspace_path, ga_event_tag_info)
+    # Google Ads Tag
     # gads_conv_tag = gtm_creator.create_tag(workspace_path, gads_conv_tag_info)
     # gads_rm_tag = gtm_creator.create_tag(workspace_path, gads_rm_tag_info)
     # flc_tag = gtm_creator.create_tag(workspace_path, flc_tag_info)
     # fls_tag = gtm_creator.create_tag(workspace_path, fls_tag_info)
 
-def create_tags_sheet(workspace_path, tags):
 
+def create_tags_sheet(workspace_path, tags):
     for tag in tags:
         tag_type = tag[1]
         tag_name = tag[2]
         details = tag[3]
-        
+
         if tag_type == 'ua_pv':
-            tag_info = {"tag_name": tag_name, "tag_type": tag_type, "ua_id": details} 
+            tag_info = {"tag_name": tag_name, "tag_type": tag_type, "ua_id": details}
             ga_pv_tag = gtm_creator.create_tag(workspace_path, tag_info)
 
         elif tag_type == 'awct':
-            conv_id, conv_label = details.split('|')     
+            conv_id, conv_label = details.split('|')
             tag_info = {"tag_name": tag_name, "tag_type": tag_type, "conv_id": conv_id, "conv_label": conv_label}
             gads_conv_tag = gtm_creator.create_tag(workspace_path, tag_info)
 
@@ -104,27 +108,116 @@ def create_tags_sheet(workspace_path, tags):
 
         else:
             tag_info = None
-            
+
+
 def create_triggers_sheets(workspace_path, triggers):
-    #TODO:
+    # TODO:
     pass
+
 
 def create_triggers(workspace_path):
     pv_trigger_info = {"trigger_name": "PV_TRIGGER", "trigger_type": "pageview"}
     click_trigger_info = {"trigger_name": "CLICK_TRIGGER", "trigger_type": "click"}
     click_trigger2_info = {"trigger_name": "CLICK_TRIGGER2", "trigger_type": "click"}
 
-    pv_trigger = gtm_creator.create_trigger(workspace_path, pv_trigger_info)
-    click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger_info)
-    click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger2_info)
+    page_path_trigger_info = {"trigger_name": "show_thx_page", "trigger_type": "PAGEVIEW"}
+    copy_tel_trigger_info = {"trigger_name": "copy_tel", "trigger_type": "CUSTOM_EVENT"}
+
+    copy_tel_filters = {
+        "customEventFilter": [
+            {
+                "type": "EQUALS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{_event}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "kopiowanieTekstu"
+                    }
+                ]
+            }
+        ],
+        "filter": [
+            {
+                "type": "CONTAINS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{DLV_COPY}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "727"
+                    }
+                ]
+            }
+        ],
+    }
+
+    page_path_filters = {
+        "filter": [
+            {
+                "type": "CONTAINS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{Page Path}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "dziekuje"
+                    }
+                ]
+            },
+            {
+                "type": "CONTAINS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{Referrer}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "tapflo.com.pl"
+                    }
+                ]
+            }
+        ],
+    }
+    # pv_trigger = gtm_creator.create_trigger(workspace_path, pv_trigger_info)
+    # click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger_info)
+    # click_trigger = gtm_creator.create_trigger(workspace_path, click_trigger2_info)
+    if not gtm_creator.get_trigger_by_name(workspace_path, page_path_trigger_info.get("trigger_name")):
+        page_path_trigger = gtm_creator.create_trigger(workspace_path, page_path_trigger_info, page_path_filters)
+        print(page_path_trigger)
+
+    if not gtm_creator.get_trigger_by_name(workspace_path, copy_tel_trigger_info.get("trigger_name")):
+        copy_tel_trigger = gtm_creator.create_trigger(workspace_path, copy_tel_trigger_info, copy_tel_filters)
+
 
 def create_variable(workspace_path):
     script = 'function(){\n  return console.log("heyo")\n}'
 
     datalayer_variable_info = {
-        "name": "DLV_SAMPLE",
+        "name": "DLV_COPY",
         "type": "v",
-        "value": "datalayer-name",
+        "value": "2",
+        "param_key": "dataLayerVersion",
+    }
+    datalayer_variable_info_2 = {
+        "name": "DLV_COPY",
+        "type": "v",
+        "value": "clipboardText",
         "param_key": "name",
     }
     cookie_variable_info = {
@@ -146,20 +239,25 @@ def create_variable(workspace_path):
         "param_key": "trackingId",
     }
 
-    gtm_creator.create_variable(workspace_path, cookie_variable_info)
-    gtm_creator.create_variable(workspace_path, datalayer_variable_info)
-    gtm_creator.create_variable(workspace_path, cjs_variable_info)
-    gtm_creator.create_variable(workspace_path, ga_settings_variable_info)
+    # gtm_creator.create_variable(workspace_path, cookie_variable_info)
+    # gtm_creator.create_variable(workspace_path, datalayer_variable_info)
+    if not gtm_creator.get_variable_by_name(workspace_path, "DLV_COPY"):
+        gtm_creator.create_variable(workspace_path, datalayer_variable_info_2)
+
+    # gtm_creator.create_variable(workspace_path, cjs_variable_info)
+    # gtm_creator.create_variable(workspace_path, ga_settings_variable_info)
+
 
 def read_tags_from_sheets():
-    sheets_id = '17Nu32XCIIENCtmQRx9olx5R0dh4eb6CRuP99ik1d3hk' #Part_Of_Google_Sheets_URL
-    tab = 'tag!A1:G50'
+    sheets_id = '1YdfQ7darmZCJCAJLOCVDGzfAI4BXxPijCus_ZH_ws9Y'  # Part_Of_Google_Sheets_URL
+    tab = 'tags!A1:G50'
     sheet = setup(sheets_id)
     result = get_listed_values(sheets_id, sheet, tab)
     return result
 
+
 def read_triggers_from_sheets():
-    sheets_id = '17Nu32XCIIENCtmQRx9olx5R0dh4eb6CRuP99ik1d3hk' #Part_Of_Google_Sheets_URL
+    sheets_id = '17Nu32XCIIENCtmQRx9olx5R0dh4eb6CRuP99ik1d3hk'  # Part_Of_Google_Sheets_URL
     tab = 'trigger!A1:G50'
     sheet = setup(sheets_id)
     result = get_listed_values(sheets_id, sheet, tab)
@@ -167,7 +265,6 @@ def read_triggers_from_sheets():
 
 
 if __name__ == "__main__":
-
     ### SETUP ###
     CLIENT_SECRETS = config("CLIENT_SECRETS")
     ACCOUNT_ID = config("ACCOUNT_ID")
@@ -193,7 +290,8 @@ if __name__ == "__main__":
     workspace_path = workspace.get_path()
     print(workspace_path)
 
-    # tags = read_tags_from_sheets()
+    tags = read_tags_from_sheets()
+    print(tags)
     # create_tags_sheet(workspace_path, tags)
 
     # trigger = read_triggers_from_sheets()
@@ -203,13 +301,13 @@ if __name__ == "__main__":
     # create_workspace(workspace, container_path, workspace_count)
 
     ### CREATE TAGS ###
-    #create_tags(workspace_path)
-
+    # create_tags(workspace_path)
+    create_tags(workspace_path)
     ### CREATE TRIGGERS ###
-    # create_triggers(workspace_path)
+    create_triggers(workspace_path)
 
     ### CREATE VARIABLES ###
-    #create_variable(workspace_path)
+    create_variable(workspace_path)
 
     ### CONNECT TAG + TRIGGER ###
     # scanner_workspaces = gtm_scanner.get_workspaces(ACCOUNT_ID, CONTAINER_ID)
@@ -218,8 +316,6 @@ if __name__ == "__main__":
     # tag = gtm_scanner.get_tag_by_name(scanner_ws_path, 'GA_PV_TAG_2')
     # trigger = gtm_scanner.get_trigger_by_name(scanner_ws_path, 'PV_TRIGGER')
     # gtm_creator.connect_tag_trigger(tag, trigger)
-
-
 
     ### TODO 1: create version
     ### CREATE & READ GTM Container Version ###
@@ -231,7 +327,7 @@ if __name__ == "__main__":
     # new_container_version = gtm_creator.create_version(workspace_path, container_version, 'yt version x', 'this is some notes')
     # print(new_container_version)
 
-    #TODO 1#
+    # TODO 1#
     ### Publish the Container Version ###
 
     ### TODO 2: publish the version
@@ -239,4 +335,3 @@ if __name__ == "__main__":
     # current_version = version._version(workspace_path)
 
     ### TODO 3: activate all buit_in_variable & get built_in_variable
-

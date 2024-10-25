@@ -9,19 +9,23 @@ class Trigger:
         else:
             print("workspaces not exist")
 
-    def create_trigger(self, workspace_path, trigger_info):
+    def create_trigger(self, workspace_path, trigger_info, filters):
 
-        trigger = {
+        trigger_head = {
             "name": trigger_info["trigger_name"],
             "type": trigger_info["trigger_type"],
         }
-
+        if filters:
+            trigger = {**trigger_head, **filters}
+            repr(trigger)
+        else:
+            trigger = trigger_head
         try:
             self.triggers.create(parent=workspace_path, body=trigger).execute()
             print(" 🎉 TRIGGER Created 🎉")
             return self.triggers
-        except:
-            print("💣 TRIGGER not Created 💣")
+        except Exception as e:
+            print(f"💣 TRIGGER not Created 💣 {e}")
 
     def get_triggers(self, workspace_path):
         triggers = self.triggers.list(parent=workspace_path).execute()
@@ -29,12 +33,11 @@ class Trigger:
 
     def get_trigger_by_name(self, workspace_path, trigger_name):
         triggers = self.triggers.list(parent=workspace_path).execute()
-
-        for trigger in triggers["trigger"]:
-            if trigger["name"] == trigger_name:
-                return trigger
-            else:
-                pass
+        if triggers:
+            for trigger in triggers["trigger"]:
+                if trigger["name"] == trigger_name:
+                    return trigger
+        return None
 
     def trigger_info(self, trigger):
         pprint(trigger)

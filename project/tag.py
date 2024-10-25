@@ -1,4 +1,5 @@
 from pprint import pprint
+from uu import Error
 
 
 class Tag:
@@ -52,7 +53,7 @@ class Tag:
 
         tag = {
             "name": tag_info["tag_name"],
-            "type": "ua",
+            "type": "gaawe",
             "parameter": [
                 {
                     "key": "gaSettings",
@@ -87,8 +88,59 @@ class Tag:
             self.tags.create(parent=workspace_path, body=tag).execute()
             print(" 🎉 TAG Created🎉")
             return self.tags
-        except:
-            print("💣 TAG not Created 💣")
+        except Error as e:
+            print(f"💣 TAG not Created 💣 {e}")
+
+    def create_ga4_tag(self, workspace_path, tag_info):
+        # GA4 copy tel tag
+        tag = {
+            "name": tag_info["tag_name"],
+            "type": tag_info["tag_type"],
+            "parameter": [
+                {
+                    "type": "BOOLEAN",
+                    "key": "sendEcommerceData",
+                    "value": "false"
+                },
+                {
+                    "type": "LIST",
+                    "key": "eventSettingsTable",
+                    "list": [
+                        {
+                            "type": "MAP",
+                            "map": [
+                                {
+                                    "type": "TEMPLATE",
+                                    "key": "parameter",
+                                    "value": "value"
+                                },
+                                {
+                                    "type": "TEMPLATE",
+                                    "key": "parameterValue",
+                                    "value": "1000"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "TEMPLATE",
+                    "key": "eventName",
+                    "value": "GA4_copy_tel"
+                },
+                {
+                    "type": "TEMPLATE",
+                    "key": "measurementIdOverride",
+                    "value": "G-MP9MEZ54PL"
+                }
+            ],
+        }
+        try:
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            return self.tags
+            print(" 🎉 TAG Created🎉")
+        except Error as e:
+            print(f"💣 TAG not Created 💣 {e}")
 
     def create_gads(self, workspace_path, tag_info):
 
@@ -188,11 +240,10 @@ class Tag:
 
     def get_tag_by_name(self, workspace_path, tag_name):
         tags = self.tags.list(parent=workspace_path).execute()
-
-        for tag in tags["tag"]:
-            if tag["name"] == tag_name:
-                return tag
-
+        if tags:
+            for tag in tags["tag"]:
+                if tag["name"] == tag_name:
+                    return tag
         return None
 
     def connect_tag_trigger(self, tag, trigger):

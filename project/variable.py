@@ -1,4 +1,5 @@
 from pprint import pprint
+from uu import Error
 
 
 class Variable:
@@ -25,8 +26,8 @@ class Variable:
         }
         try:
             return self.variables.create(parent=workspace_path, body=variable).execute()
-        except:
-            print("💣 TRIGGER not Created 💣")
+        except Error as e:
+            print(f"💣 VARIABLE not Created 💣 {e}")
 
     def get_variables(self, workspace_path):
         variables = self.variables.list(parent=workspace_path).execute()
@@ -38,14 +39,11 @@ class Variable:
 
     def get_variable_by_name(self, workspace_path, variable_name):
         variables = self.variables.list(parent=workspace_path).execute()
-        result = None
-
-        for variable in variables["variable"]:
-            if variable["name"] == variable_name:
-                result = variable
-            else:
-                pass
-        return result
+        if variables:
+            for variable in variables["variable"]:
+                if variable["name"] == variable_name:
+                    return variable
+        return None
 
     def variable_info(self, variable):
         pprint(variable)

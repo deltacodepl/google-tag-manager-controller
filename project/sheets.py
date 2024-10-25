@@ -3,11 +3,11 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 def setup(sheets_id):
-    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-    SERVICE_ACCOUNT_FILE = 'conf/gtm_service_account.json'
+    scopes = ['https://www.googleapis.com/auth/spreadsheets']
+    service_account_file = 'conf/service_account.json'
     creds = None
     creds = service_account.Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+            service_account_file, scopes=scopes)
 
     service = build('sheets', 'v4', credentials=creds)
     sheet = service.spreadsheets()

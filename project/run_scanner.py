@@ -73,7 +73,7 @@ if __name__ == "__main__":
     container = gtm_scanner.get_container(containers, CONTAINER_NAME)
     container_version = container.get_container_version()
     print(container_version)
-
+    display_gtm_overview()
     ### CALL GTM OVERVIEW ###
     # display_gtm_overview()
 
