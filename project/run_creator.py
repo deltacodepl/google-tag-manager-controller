@@ -14,10 +14,24 @@ def create_workspace(workspace, container_path, workspace_count):
 
 
 def create_tags(workspace_path):
-    script = "<script> </script>"
+    script = "<script>\nfunction getSelectionText() {" \
+             "var text = '';" \
+             "if'(window.getSelection) {" \
+             "text = window.getSelection().toString();" \
+             "} else if (document.selection && document.selection.type != 'Control') {" \
+             "text = document.selection.createRange().text;}" \
+             "return text;}", \
+        "document.addEventListener(\"copy\", function(e){" \
+        "dataLayer.push({" \
+        "'event': 'textCopied'," \
+        "'clipboardText': getSelectionText()," \
+        "'clipboardLength': getSelectionText().length }); });</script>"
+
+
+    script2 = "<script>\n// Declare function to get selected text from document\nfunction getSelectionText() {\nvar text = '';\nif (window.getSelection) {\ntext = window.getSelection().toString();\n} else if (document.selection && document.selection.type != 'Control') {\ntext = document.selection.createRange().text;\n}\nreturn text;\n}\n\n// Declare function on copy event\ndocument.addEventListener(\"copy\", function(e){\ndataLayer.push({\n'event': 'textCopied',\n'clipboardText': getSelectionText(),\n'clipboardLength': getSelectionText().length\n});\n});\n</script>"
 
     html_tag_info = {"tag_name": "HTML_TAG", "tag_type": "html", "script": script}
-    html_tag2_info = {"tag_name": "HTML_TAG_2", "tag_type": "html", "script": script}
+    html_tag2_info = {"tag_name": "HTML_COPY_TAG", "tag_type": "html", "script": script2}
 
     ga_pv_tag_info = {
         "tag_name": "GA_PV_TAG",
@@ -31,7 +45,7 @@ def create_tags(workspace_path):
         "ua_id": "UA-1234-5",
     }
 
-    main_trigger_info = {
+    main_tag_info = {
         "tag_name": "GA4_tapflo.ca",
         "tag_type": "googtag",
         "tag_id": "G-MP9MEZ54PL"
@@ -41,7 +55,7 @@ def create_tags(workspace_path):
         "tag_name": "GA_EVENT_TAG",
         # "tag_type": "ua_event",
         "tag_type": "gaawe",
-        "ua_id": "UA-1234-5",
+        "tag_id": "G-MP9MEZ54PL",
         "ga_settings": "{{Google Analytics settings}}",
         "non_interaction": "false",
         "event_category": "ec-y",
@@ -82,13 +96,15 @@ def create_tags(workspace_path):
     }
 
     # html_tag = gtm_creator.create_tag(workspace_path, html_tag_info)
-    # html_tag = gtm_creator.create_tag(workspace_path, html_tag2_info)
+    if not gtm_creator.get_tag_by_name(workspace_path, html_tag2_info["tag_name"]):
+        html_tag = gtm_creator.create_tag(workspace_path, html_tag2_info)
     # ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag_info)
     if not gtm_creator.get_tag_by_name(workspace_path, ga_event_tag_info["tag_name"]):
         ga_event_tag = gtm_creator.create_tag(workspace_path, ga_event_tag_info)
 
-    if not gtm_creator.get_trigger_by_name(workspace_path, main_trigger_info.get("tag_name")):
-        main_tag = gtm_creator.create_tag(workspace_path, main_trigger_info)
+    if not gtm_creator.get_tag_by_name(workspace_path, main_tag_info.get("tag_name")):
+        main_tag = gtm_creator.create_tag(workspace_path, main_tag_info)
+
 
     # Google Ads Tag
     # gads_conv_tag = gtm_creator.create_tag(workspace_path, gads_conv_tag_info)
@@ -132,6 +148,8 @@ def create_triggers(workspace_path):
 
     page_path_trigger_info = {"trigger_name": "show_thx_page", "trigger_type": "PAGEVIEW", "tag_id": "G-MP9MEZ54PL"}
     copy_tel_trigger_info = {"trigger_name": "copy_tel", "trigger_type": "CUSTOM_EVENT", "tag_id": "G-MP9MEZ54PL"}
+    mail_tel_trigger_info = {"trigger_name": "copy_mail", "trigger_type": "CUSTOM_EVENT", "tag_id": "G-MP9MEZ54PL"}
+    dom_ready_trigger_info = {"trigger_name": "dom_ready", "trigger_type": "DOM_READY", "tag_id": "G-MP9MEZ54PL"}
 
     copy_tel_filters = {
         "customEventFilter": [
@@ -146,7 +164,7 @@ def create_triggers(workspace_path):
                     {
                         "type": "TEMPLATE",
                         "key": "arg1",
-                        "value": "kopiowanieTekstu"
+                        "value": "textCopied"
                     }
                 ]
             }
@@ -169,7 +187,42 @@ def create_triggers(workspace_path):
             }
         ],
     }
-
+    copy_mail_filters = {
+        "customEventFilter": [
+            {
+                "type": "EQUALS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{_event}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "textCopied"
+                    }
+                ]
+            }
+        ],
+        "filter": [
+            {
+                "type": "CONTAINS",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg0",
+                        "value": "{{DLV_COPY}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "arg1",
+                        "value": "@tapflo"
+                    }
+                ]
+            }
+        ],
+    }
     page_path_filters = {
         "filter": [
             {
@@ -213,7 +266,11 @@ def create_triggers(workspace_path):
 
     if not gtm_creator.get_trigger_by_name(workspace_path, copy_tel_trigger_info.get("trigger_name")):
         copy_tel_trigger = gtm_creator.create_trigger(workspace_path, copy_tel_trigger_info, copy_tel_filters)
+    if not gtm_creator.get_trigger_by_name(workspace_path, mail_tel_trigger_info.get("trigger_name")):
+        copy_tel_trigger = gtm_creator.create_trigger(workspace_path, mail_tel_trigger_info, copy_mail_filters)
 
+    if not gtm_creator.get_trigger_by_name(workspace_path, dom_ready_trigger_info.get("trigger_name")):
+        dom_ready_trigger = gtm_creator.create_trigger(workspace_path, dom_ready_trigger_info, {})
 
 def create_variable(workspace_path):
     script = 'function(){\n  return console.log("heyo")\n}'
