@@ -31,6 +31,12 @@ def create_tags(workspace_path):
         "ua_id": "UA-1234-5",
     }
 
+    main_trigger_info = {
+        "tag_name": "GA4_tapflo.ca",
+        "tag_type": "googtag",
+        "tag_id": "G-MP9MEZ54PL"
+    }
+
     ga_event_tag_info = {
         "tag_name": "GA_EVENT_TAG",
         # "tag_type": "ua_event",
@@ -80,6 +86,10 @@ def create_tags(workspace_path):
     # ga_pv_tag = gtm_creator.create_tag(workspace_path, ga_pv_tag_info)
     if not gtm_creator.get_tag_by_name(workspace_path, ga_event_tag_info["tag_name"]):
         ga_event_tag = gtm_creator.create_tag(workspace_path, ga_event_tag_info)
+
+    if not gtm_creator.get_trigger_by_name(workspace_path, main_trigger_info.get("tag_name")):
+        main_tag = gtm_creator.create_tag(workspace_path, main_trigger_info)
+
     # Google Ads Tag
     # gads_conv_tag = gtm_creator.create_tag(workspace_path, gads_conv_tag_info)
     # gads_rm_tag = gtm_creator.create_tag(workspace_path, gads_rm_tag_info)
@@ -120,8 +130,8 @@ def create_triggers(workspace_path):
     click_trigger_info = {"trigger_name": "CLICK_TRIGGER", "trigger_type": "click"}
     click_trigger2_info = {"trigger_name": "CLICK_TRIGGER2", "trigger_type": "click"}
 
-    page_path_trigger_info = {"trigger_name": "show_thx_page", "trigger_type": "PAGEVIEW"}
-    copy_tel_trigger_info = {"trigger_name": "copy_tel", "trigger_type": "CUSTOM_EVENT"}
+    page_path_trigger_info = {"trigger_name": "show_thx_page", "trigger_type": "PAGEVIEW", "tag_id": "G-MP9MEZ54PL"}
+    copy_tel_trigger_info = {"trigger_name": "copy_tel", "trigger_type": "CUSTOM_EVENT", "tag_id": "G-MP9MEZ54PL"}
 
     copy_tel_filters = {
         "customEventFilter": [

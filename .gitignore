@@ -142,3 +142,5 @@ dmypy.json
 # Used for vscode metadata
 .vscode/
 .idea/
+
+token.json

@@ -91,6 +91,64 @@ class Tag:
         except Error as e:
             print(f"💣 TAG not Created 💣 {e}")
 
+
+    def create_ga4_main_tag(self, workspace_path, tag_info):
+        tag = {
+                "name": tag_info["tag_name"],
+                "type": tag_info["tag_type"],
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "tagId",
+                        "value": tag_info["tag_id"]
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "configSettingsTable",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "parameter",
+                                        "value": "send_page_view"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "parameterValue",
+                                        "value": "true"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NEEDED",
+                    "consentType": {
+                        "type": "LIST",
+                        "list": [
+                            {
+                                "type": "TEMPLATE",
+                                "value": "analytics_storage"
+                            }
+                        ]
+                    }
+                }
+            }
+        try:
+            self.tags.create(parent=workspace_path, body=tag).execute()
+            return self.tags
+            print(" 🎉 TAG Created🎉")
+        except Error as e:
+            print(f"💣 TAG not Created 💣 {e}")
+
+
     def create_ga4_tag(self, workspace_path, tag_info):
         # GA4 copy tel tag
         tag = {
@@ -131,7 +189,7 @@ class Tag:
                 {
                     "type": "TEMPLATE",
                     "key": "measurementIdOverride",
-                    "value": "G-MP9MEZ54PL"
+                    "value": tag_info["tag_id"]
                 }
             ],
         }

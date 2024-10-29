@@ -91,6 +91,10 @@ class Workspace:
             self.tag.create_ga4_tag(workspace_path, tag_info)
             #self.tag.create_ga_event(workspace_path, tag_info)
 
+        if tag_info["tag_type"] == "googtag":
+            print("Creating Google Tag")
+            self.tag.create_ga4_main_tag(workspace_path, tag_info)
+
         if tag_info["tag_type"] == "awct" or tag_info["tag_type"] == "sp":
             self.tag.create_gads(workspace_path, tag_info)
 
