@@ -1,3 +1,5 @@
+import time
+
 from decouple import config
 from service import get_service
 from gtm_creator import GTMCreator
@@ -52,7 +54,7 @@ def create_tags(workspace_path):
     }
 
     ga_event_tag_info = {
-        "tag_name": "GA_EVENT_TAG",
+        "tag_name": "GA4_copy_tel",
         # "tag_type": "ua_event",
         "tag_type": "gaawe",
         "tag_id": "G-MP9MEZ54PL",
@@ -111,7 +113,7 @@ def create_tags(workspace_path):
     # gads_rm_tag = gtm_creator.create_tag(workspace_path, gads_rm_tag_info)
     # flc_tag = gtm_creator.create_tag(workspace_path, flc_tag_info)
     # fls_tag = gtm_creator.create_tag(workspace_path, fls_tag_info)
-
+    time.sleep(4)
 
 def create_tags_sheet(workspace_path, tags):
     for tag in tags:

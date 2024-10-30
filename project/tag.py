@@ -156,6 +156,11 @@ class Tag:
             "type": tag_info["tag_type"],
             "parameter": [
                 {
+                    "type": "TEMPLATE",
+                    "key": "eventName",
+                    "value": tag_info["tag_name"]
+                },
+                {
                     "type": "BOOLEAN",
                     "key": "sendEcommerceData",
                     "value": "false"
@@ -180,11 +185,6 @@ class Tag:
                             ]
                         }
                     ]
-                },
-                {
-                    "type": "TEMPLATE",
-                    "key": "eventName",
-                    "value": "GA4_copy_tel"
                 },
                 {
                     "type": "TEMPLATE",
