@@ -19,6 +19,9 @@ class GTMCreator(GTMBase):
     def create_variable(self, workspace_path, variable_info):
         self.workspaces.create_variable(workspace_path, variable_info)
 
+    def create_builtin_variable(self, workspace_path):
+        self.workspaces.create_builtin_variable(workspace_path)
+
     def connect_tag_trigger(self, tag, trigger):
         self.workspaces.connect_tag_trigger(tag, trigger)
 

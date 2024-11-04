@@ -11,6 +11,12 @@ class Variable:
         else:
             print("workspaces not exist")
 
+    def create_builtin_variable(self, workspace_path):
+        try:
+            return self.built_in_variable.create(parent=workspace_path, type=['clickClasses', 'clickElement', 'clickId', 'clickUrl', 'clickText', 'clickTarget'] ).execute()
+        except Error as e:
+            print(f"💣 VARIABLE not Created 💣 {e}")
+
     def create_variable(self, workspace_path, variable_info):
 
         variable = {

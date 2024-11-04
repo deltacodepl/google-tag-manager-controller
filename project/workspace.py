@@ -111,6 +111,9 @@ class Workspace:
     def create_variable(self, workspace_path, variable_info):
         self.variable.create_variable(workspace_path, variable_info)
 
+    def create_builtin_variable(self, workspace_path):
+        self.variable.create_builtin_variable(workspace_path)
+
     def connect_tag_trigger(self, tag, trigger):
         self.tag.connect_tag_trigger(tag, trigger)
 
